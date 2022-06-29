@@ -44,7 +44,7 @@ class SendMail implements ShouldQueue
 
             // update mail status to sent and dispatch a new job to send webhook if webhook is set
             $this->mail->statuses()->create([
-                'status' => Mail::STATUS_SENT,
+                'name' => Mail::STATUS_SENT,
             ]);
 
             MailSentWebhook::dispatchIf($this->mail->webhook_url, $this->mail);
@@ -58,7 +58,7 @@ class SendMail implements ShouldQueue
     {
         // update mail status to failed and dispatch webhook if webhook_url is set
         $this->mail->statuses()->create([
-            'status' => Mail::STATUS_FAILED,
+            'name' => Mail::STATUS_FAILED,
         ]);
         MailFailedWebhook::dispatchIf($this->mail->webhook_url, $this->mail, $exception);
     }

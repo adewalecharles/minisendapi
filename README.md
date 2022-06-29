@@ -1,64 +1,226 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+## How to Install and Run
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+<p>
+<ul>
+<li>Clone this repo</li>
+<li>Run composer install</li>
+<li>In your .env file change your QUEUE_CONNECTION=database</li>
+</ul>
 </p>
 
-## About Laravel
+<p>This project is tested with mailtrap, so you can setuup a mailtrap account and add the credentials to your .env or you can use mailersend.</p>
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## How to test
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+<p>You can run test using php artisan test or by using postman, if you are using postman follow the instructions below:</p>
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+# Quick Documentation
 
-## Learning Laravel
+## Installation
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+First you need to create an account in other to get a token, there are 2 tokens one for accessing the send mail endpoint and the other that our vuejs front end will use to authenticate.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+# Quick API Documentation
 
-## Laravel Sponsors
+## LOGIN
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+REQUEST: POST
 
-### Premium Partners
+ENDPOINT: /api/vi/login
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+Payload:
 
-## Contributing
+email -> email
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+password -> your_sercret_password
 
-## Code of Conduct
+Sample Response:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```bash
+{
+    "status": true,
+    "message": "success",
+    "data": {
+        "user": {
+            "id": "2ce1e375-5422-4b88-a8ec-808d236f6a81",
+            "username": "adewalecharles",
+            "email": "test@mail.com",
+            "joined": "3 hours ago"
+        },
+        "token": "2|WEttRuUpAbBI91dC922c5qBgfZ4Wq59rDLtSdHLo"
+    }
+}
+```
 
-## Security Vulnerabilities
+## REGISTER
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+REQUEST: POST
 
-## License
+ENDPOINT: /api/v1/register
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Payload:
+
+username ->
+
+email ->
+
+password ->
+
+password_confirmation ->
+
+Sample Response:
+
+```bash
+{
+    "status": true,
+    "message": "success",
+    "data": {
+        "token": "3|Lcen1cJjL6c6CFJhXdpFUvqb1lbcnrZZj6z87ZVG",
+        "mail-token": "4|tvgk9VSlyWGtCcW7bXCS9NmaVpv9ibJl2fP8oSc3",
+        "user": {
+            "id": "5af00059-eff4-4907-b6b0-cf737924ae3d",
+            "username": "tester",
+            "email": "test@mail.com2",
+            "joined": "1 second ago"
+        }
+    }
+}
+```
+
+## GET ALL SENT MAILS
+REQUEST: GET
+
+ENDPOINT: /api/v1/get-emails
+
+Authorization: Bearer token
+
+Sample Response: 
+```bash
+{
+    "status": true,
+    "message": "success",
+    "data": [
+        {
+            "id": "468c9afd-46dc-49a4-a8cd-53499a80718d",
+            "from": "test@test.com",
+            "to": "test@test.com",
+            "subject": "A mail from beyond",
+            "text": "Hello Man",
+            "html": "<h1>Hello Man</h1>",
+            "attachments": [],
+            "status": [
+                {
+                    "id": 1,
+                    "name": "Posted",
+                    "statusable_type": "App\\Models\\Mail",
+                    "statusable_id": 1,
+                    "created_at": "2022-06-29T15:39:28.000000Z",
+                    "updated_at": "2022-06-29T15:39:28.000000Z"
+                }
+            ]
+        },
+        {
+            "id": "32717ff3-8d5e-4920-a540-d2890789af2b",
+            "from": "test@test.com",
+            "to": "test@test.com",
+            "subject": "A mail from beyond",
+            "text": "Hello Man",
+            "html": "<h1>Hello Man</h1>",
+            "attachments": [],
+            "status": [
+                {
+                    "id": 2,
+                    "name": "Posted",
+                    "statusable_type": "App\\Models\\Mail",
+                    "statusable_id": 2,
+                    "created_at": "2022-06-29T15:44:05.000000Z",
+                    "updated_at": "2022-06-29T15:44:05.000000Z"
+                }
+            ]
+        },
+        {
+            "id": "6dc09ee1-d17f-4f7c-a7e3-523a237f2f14",
+            "from": "test@test.com",
+            "to": "test@test.com",
+            "subject": "A mail from beyond",
+            "text": "Hello Man",
+            "html": "<h1>Hello Man</h1>",
+            "attachments": [],
+            "status": [
+                {
+                    "id": 3,
+                    "name": "Posted",
+                    "statusable_type": "App\\Models\\Mail",
+                    "statusable_id": 3,
+                    "created_at": "2022-06-29T15:45:03.000000Z",
+                    "updated_at": "2022-06-29T15:45:03.000000Z"
+                }
+            ]
+        },
+        {
+            "id": "9f9fd538-cedf-4bb2-bb3f-b4810e38e02b",
+            "from": "test@test.com",
+            "to": "test@test.com",
+            "subject": "A mail from beyond",
+            "text": "Hello Man",
+            "html": "<h1>Hello Man</h1>",
+            "attachments": [],
+            "status": [
+                {
+                    "id": 4,
+                    "name": "Posted",
+                    "statusable_type": "App\\Models\\Mail",
+                    "statusable_id": 4,
+                    "created_at": "2022-06-29T18:57:10.000000Z",
+                    "updated_at": "2022-06-29T18:57:10.000000Z"
+                },
+                {
+                    "id": 5,
+                    "name": "Sent",
+                    "statusable_type": "App\\Models\\Mail",
+                    "statusable_id": 4,
+                    "created_at": "2022-06-29T18:57:20.000000Z",
+                    "updated_at": "2022-06-29T18:57:20.000000Z"
+                }
+            ]
+        }
+    ]
+}
+```
+
+## SEND MAIL
+
+REQUEST: POST
+
+ENDPOINT: /api/v1/email
+
+payload: 
+```bash
+{
+    "from": "test@test.com",
+    "to" : "test@test.com",
+    "subject" : "A mail from beyond",
+    "text_content" : "Hello Man",
+    "html_content" : "<h1>Hello Man</h1>",
+    "webhook_url" : "https:webhook.com", (optional),
+    "attachments" : [
+    
+    ]
+}
+```
+
+Sample Response:
+
+```bash
+{
+    "status": true,
+    "message": "Your mail is being sent",
+    "data": []
+}
+```
+
+
+
+
+
+
