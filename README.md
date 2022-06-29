@@ -219,6 +219,8 @@ Sample Response:
 }
 ```
 
+Note: due to the fact that the mails are being run in a job, you need to run your queue by running php artisan queue:work
+
 
 
 
